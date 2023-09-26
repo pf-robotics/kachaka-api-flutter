@@ -1,0 +1,3 @@
+[submodule "kachaka-api"]
+	path = kachaka-api
+	url = git@github.com:anishi-pfr/kachaka-api.git
