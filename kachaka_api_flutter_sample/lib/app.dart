@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kachaka_api_flutter_sample/constants/settings.dart';
+import 'package:kachaka_api_flutter_sample/model/connection_options.dart';
 import 'package:kachaka_api_flutter_sample/screens/home.dart';
 import 'package:kachaka_api_flutter_sample/service/robot_connection_service.dart';
 
@@ -12,8 +13,9 @@ class KachakaApiSampleApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      Future.microtask(
-          () => ref.read(robotConnectionServiceProvider).connect(ipAddress));
+      Future.microtask(() => ref
+          .read(robotConnectionServiceProvider)
+          .connect(ConnectionOptions(ipAddress, port)));
       return null;
     }, []);
 

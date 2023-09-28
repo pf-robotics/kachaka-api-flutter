@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kachaka_api/kachaka_api.dart';
 import 'package:kachaka_api_flutter_sample/constants/settings.dart';
+import 'package:kachaka_api_flutter_sample/model/connection_options.dart';
 import 'package:kachaka_api_flutter_sample/model/map_transform_state.dart';
 import 'package:kachaka_api_flutter_sample/model/pin_model.dart';
 import 'package:kachaka_api_flutter_sample/repositories/kachaka/kachaka_repository.dart';
@@ -30,7 +31,9 @@ class HomeScreen extends HookConsumerWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(robotConnectionServiceProvider).connect(ipAddress);
+          ref
+              .read(robotConnectionServiceProvider)
+              .connect(ConnectionOptions(ipAddress, port));
         },
         child: const Icon(Icons.refresh),
       ),

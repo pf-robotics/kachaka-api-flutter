@@ -1,7 +1,16 @@
 import 'package:fixnum/fixnum.dart';
+import 'package:flutter/foundation.dart';
 import 'package:grpc/grpc.dart';
+// webとmobileで、grpc_webとgrpcのようにパッケージが分かれていて、
+// それぞれのプラットフォームでしか動かないlibraryに依存しているため、
+// if (dart.library.io)のように書き、余分なpackageをimportしないようにする
+import 'package:kachaka_api_flutter_sample/repositories/grpc/grpc_channel.dart'
+    if (dart.library.io) 'package:kachaka_api_flutter_sample/repositories/grpc/grpc_channel_mobile_impl.dart'
+    if (dart.library.html) 'package:kachaka_api_flutter_sample/repositories/grpc/grpc_channel_web_impl.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kachaka_api/kachaka_api.dart';
+import 'package:kachaka_api_flutter_sample/model/connection_options.dart';
 import 'package:uuid/uuid.dart';
 
 final kachakaRepositoryProvider = Provider((ref) => KachakaRepository());
@@ -9,7 +18,7 @@ final kachakaRepositoryProvider = Provider((ref) => KachakaRepository());
 class KachakaRepository {
   static const _zeroCursor = Int64.ZERO;
 
-  ClientChannel? _channel;
+  ClientChannelBase? _channel;
   KachakaApiClient? _client;
 
   String? _channelId;
@@ -23,14 +32,17 @@ class KachakaRepository {
     return CallOptions(timeout: const Duration(seconds: 5));
   }
 
-  void initializeChannel(String ipAddress, {int port = 26400}) {
-    _channel = ClientChannel(
-      ipAddress,
-      port: port,
-      options: const ChannelOptions(
-        credentials: ChannelCredentials.insecure(),
-      ),
-    );
+  void initializeChannel(ConnectionOptions options) {
+    _channel = kIsWeb
+        ? getChannelForWeb(
+            Uri.parse('http://${options.ipAddress}:${options.port}'))
+        : getChannelForMobile(
+            options.ipAddress,
+            port: options.port,
+            options: const ChannelOptions(
+              credentials: ChannelCredentials.insecure(),
+            ),
+          );
     _client = KachakaApiClient(_channel!);
     _channelId = const Uuid().v4();
   }
