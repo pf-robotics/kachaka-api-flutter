@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kachaka_api_flutter_sample/model/connection_options.dart';
 import 'package:kachaka_api_flutter_sample/repositories/kachaka/kachaka_repository.dart';
 import 'package:kachaka_api_flutter_sample/service/app_to_robot_polling_service.dart';
 import 'package:kachaka_api_flutter_sample/stores/location/location_store.dart';
@@ -14,10 +15,10 @@ class RobotConnectionService {
 
   final Ref _ref;
 
-  Future<void> connect(String ipAddress) async {
+  Future<void> connect(ConnectionOptions options) async {
     await dispose();
 
-    _ref.read(kachakaRepositoryProvider).initializeChannel(ipAddress);
+    _ref.read(kachakaRepositoryProvider).initializeChannel(options);
 
     startPolling();
   }
