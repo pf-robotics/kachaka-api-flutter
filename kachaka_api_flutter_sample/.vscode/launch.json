@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+      {
+          "name": "debug",
+          "request": "launch",
+          "type": "dart",
+          "flutterMode": "debug",
+          "args": [
+              "--dart-define=IP_ADDRESS=172.18.209.165"
+          ]
+      }
+  ]
+}
