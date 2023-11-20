@@ -1,0 +1,18 @@
+{
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  },
+  "[json]": {
+    "editor.formatOnSave": true
+  },
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "cmake.configureOnOpen": false
+}
