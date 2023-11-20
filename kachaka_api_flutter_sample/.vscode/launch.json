@@ -7,7 +7,7 @@
           "type": "dart",
           "flutterMode": "debug",
           "args": [
-              "--dart-define=IP_ADDRESS=172.18.209.165"
+              "--dart-define=IP_ADDRESS=xxx.xx.xxx.xxx"
           ]
       }
   ]
